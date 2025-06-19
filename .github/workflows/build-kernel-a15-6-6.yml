@@ -37,7 +37,7 @@ on:
         default: true
       use_kpm:
         description: '是否开启KPM功能?'
-        required: false
+        required: true
         type: boolean
         default: true
       supp_op:
