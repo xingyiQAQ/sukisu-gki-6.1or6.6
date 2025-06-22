@@ -1,4 +1,5 @@
-### 这项目只是fork这位大佬的（https://github.com/ShirkNeko/GKI_KernelSU_SUSFS），我只编译@6.1.75@6.1.112及@6.6.56，为y700三代四代及小米平板7pro自用
+### 这项目只是fork这位大佬的 https://github.com/ShirkNeko/GKI_KernelSU_SUSFS
+### 我只编译@6.1.75@6.1.112及@6.6.56，为y700三代四代及小米平板7pro自用
 ### 这是一个自动构建GKI内核的仓库
 
 > 非GKI可以尝试[SukiSU云盘](https://alist.shirkneko.top)的资源，不支持一加ColorOS14、15
