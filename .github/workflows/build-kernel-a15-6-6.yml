@@ -56,7 +56,7 @@ jobs:
     uses: ./.github/workflows/kernel-a15-6.6.yml
     secrets: inherit
     with:
-      make_release: false
+      make_release: true
       kernelsu_variant: ${{ inputs.kernelsu_variant }}
       kernelsu_branch: ${{ inputs.kernelsu_branch }}
       version: ${{ inputs.version }}
