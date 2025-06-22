@@ -100,7 +100,7 @@ jobs:
     env:
       REPO_OWNER: ShirkNeko
       REPO_NAME: GKI_KernelSU_SUSFS
-      GITHUB_TOKEN: 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
+      GITHUB_TOKEN: ${{ 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 }}
 
       RELEASE_NAME: "GKI内核: ${{ inputs.kernelsu_variant == 'Next' && 'KernelSU-' || '' }} ${{ inputs.kernelsu_variant }}"
 
