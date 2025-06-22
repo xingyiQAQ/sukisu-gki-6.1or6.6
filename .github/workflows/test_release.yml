@@ -1,156 +1,156 @@
-name: 测试发布
+姓名: 测试发布
 
-permissions:
-  contents: write  # Allow writing to repository contents (for pushing tags)
-  actions: write   # Allows triggering actions
+权限:
+目录: 写#允许写入存储库内容（用于推送标签）
+行动: 写#允许触发操作
   
-on:
-  workflow_dispatch:
-    inputs:
-      make_release:
-        description: 'Do you want to create a release?'
-        required: true
-        type: boolean
-        default: true
-      kernelsu_variant:
-        # description: "选择 KernelSU | 注意:选中MKSU时为标准版"
-        description: "选择 KernelSU"
-        required: true
-        type: choice
-        options:
-          - Official
-          - Next
+在:
+工作流调度:
+输入:
+发布:
+描述: “你想创建一个发行版吗？”
+必需的: 真实的
+类型: 布尔逻辑
+违约: 真实的
+kernelsu_variant:
+        #描述："选择内核SU|注意：选中MK SU时为标准版”
+描述: "选择内核SU”
+必需的: 真实的
+类型: 选择
+选项:
+          - 正式的
+          - 下一个
           - MKSU
-          - SukiSU
-        default: SukiSU
-      kernelsu_branch:
-        description: "选择 ksu 分支"
-        required: true
-        type: choice
-        options:
-          - Stable(标准)
-          - Dev(开发)
+          - 苏姬
+违约: 苏姬
+kernelsu_branch:
+描述: "选择克苏分支"
+必需的: 真实的
+类型: 选择
+选项:
+          - 稳定（标准）
+          - Dev（开发）
           - Other(其他/指定)
-        default: Dev(开发)
+违约: Dev（开发）
       # kernelsu_branch_other:
-      #   description: "如果选择了 “其他”，请指定您的自定义分支"
-      #   required: false
-      #   type: string  # This input is required if 'Other' is chosen
-      version:
-        description: '自定义版本名(如5.10.198后面的字符/留空则使用默认版本号)'
-        required: false
-        type: string
-      use_zram:
-        description: '是否开启增加更多ZRAM算法?'
-        required: true
-        type: boolean
-        default: true
-      use_kpm:
-        description: '是否开启KPM功能?'
-        required: true
-        type: boolean
-        default: true
-      get_manager:
-        description: '是否同时获取最新KSU管理器?'
-        required: true
-        type: boolean
-        default: false
-jobs:
-  get_manager:
-    uses: ./.github/workflows/get-manager.yml
-    secrets: inherit
-    with:
-      kernelsu_variant: ${{ inputs.kernelsu_variant }}
+      # 描述："如果选择了 "其他"，请指定您的自定义分支"
+      # 必填项：假
+      #类型:字符串#如果选择"其他"，则此输入为必填项
+版本:
+描述: '自定义版本名(如5.10.198后面的字符/留空则使用默认版本号)'
+必需的: 假
+类型: 线
+使用锆合金:
+描述: '是否开启增加更多ZR AM算法？'
+必需的: 真实的
+类型: 布尔逻辑
+违约: 真实的
+使用_kpm:
+描述: ‘是否开启KPM功能？’
+必需的: 真实的
+类型: 布尔逻辑
+违约: 真实的
+获取经理:
+描述: '是否同时获取最新KSU管理器？'
+必需的: 真实的
+类型: 布尔逻辑
+违约: 假
+工作:
+获取经理:
+用途: ./.github/workflows/get-manager.yml
+隐情: 继承
+和:
+kernelsu_variant: ${{inputs.kernelsu_variant 变量}}
 
-  build-kernel-a14-6-1:
-    uses: ./.github/workflows/kernel-a14-6.1.yml
-    secrets: inherit
-    with:
-      make_release: ${{ inputs.make_release }}
-      kernelsu_variant: ${{ inputs.kernelsu_variant }}
-      kernelsu_branch: ${{ inputs.kernelsu_branch }}
-      # kernelsu_branch_other: ${{ inputs.kernelsu_branch_other }}
-      version: ${{ inputs.version }}
-      use_zram: ${{ inputs.use_zram }}
-      use_kpm: ${{ inputs.use_kpm }}
+构建内核-a14-6-1:
+用途: ./.github/workflows/kernel-a14-6.1.yml
+隐情: 继承
+和:
+发布: ${{输入.make_release}}
+kernelsu_variant: ${{inputs.kernelsu_variant 变量}}
+kernelsu_branch: ${{ inputs.kernelsu_branch }}
+      # kernelsu_branch_other: ${{ inputs.kernelsu_branches_other }}
+版本: ${{ inputs.version }}
+使用锆合金: ${{输入.使用ZR AM}}
+使用_kpm: ${{输入.使用_kpm}}
 
-  build-kernel-a15-6-6:
-    uses: ./.github/workflows/kernel-a15-6.6.yml
-    secrets: inherit
-    with:
-      make_release: ${{ inputs.make_release }}
-      kernelsu_variant: ${{ inputs.kernelsu_variant }}
-      kernelsu_branch: ${{ inputs.kernelsu_branch }}
-      # kernelsu_branch_other: ${{ inputs.kernelsu_branch_other }}
-      version: ${{ inputs.version }}
-      use_zram: ${{ inputs.use_zram }}
-      use_kpm: ${{ inputs.use_kpm }}
+构建内核-a15-6-6:
+用途: ./.github/workflows/kernel-a15-6.6.yml
+隐情: 继承
+和:
+发布: ${{输入.make_release}}
+kernelsu_variant: ${{inputs.kernelsu_variant 变量}}
+kernelsu_branch: ${{ inputs.kernelsu_branch }}
+      # kernelsu_branch_other: ${{ inputs.kernelsu_branches_other }}
+版本: ${{ inputs.version }}
+使用锆合金: ${{输入。使用ZR AM}}
+使用_kpm: ${{输入.使用_kpm}}
 
-  trigger-release:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      actions: write
-    needs:
-        - get_manager
-        - build-kernel-a14-6-1
-        - build-kernel-a15-6-6
-    if: ${{ inputs.make_release }}
-    env:
-      REPO_OWNER: ShirkNeko
-      REPO_NAME: GKI_KernelSU_SUSFS
-      GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
+触发释放:
+运行中: Ubuntu-最新
+权限:
+目录: 写
+行动: 写
+需要:
+        - 获取经理
+        - 构建内核-a14-6-1
+        - 构建内核-a15-6-6
+如果: ${{输入.make_release}}
+env:
+回购协议（回购协议）所有者: ShirkNeko
+REPO_NAME: GKI_KernelSU_SUSFS
+GITHUB_完成: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
 
-      RELEASE_NAME: "GKI内核: ${{ inputs.kernelsu_variant == 'Next' && 'KernelSU-' || '' }} ${{ inputs.kernelsu_variant }}"
+发布名称: "内核：下一个内核："
 
-      RELEASE_NOTES: |
-        此发布包含 **${{ inputs.kernelsu_variant == 'Next' && 'KernelSU' || '' }}${{ inputs.kernelsu_variant }},请注意此处的KSU版本** 、SUSFS v1.5.7 、 LZ4KD
+发布说明: |
+        此发布包含**${{输入。内核苏_variant=='下一步'&&'内核苏'||“}}${{输入.内核su_variant}}，请注意此处的KSU版本**、SFS v 1.5.7、LZ4KD
 
         功能:
-        -> ${{ inputs.kernelsu_variant == 'Next' && 'KernelSU-' || '' }}${{ inputs.kernelsu_variant }}-${{ inputs.kernelsu_branch }}
-        -> SUSFS ඞ v1.5.7
-        -> 手动Syscall Hooks,实现更好的隐藏效果
-        -> Magic Mount 支持
-        -> 简单隐藏 LineageOS 检测
+-> ${{输入.kernelsu_variant ==“下一步” && 'KernelSU-' || ""}}${{输入。Kersu_变体}}-${{内核输入分支}}{{输入.kernelsu_variant ==“下一步” && 'KernelSU-' || ""}}${{输入。Kersu_变体}}-${{内核输入分支}}
+—>苏第1.5.7页
+        -> 手动系统调用钩子，实现更好的隐藏效果
+—>魔术坐骑支持
+        -> 简单隐藏在线检测
         -> 徒劳隐藏 jit-zygote-cache 检测
-        -> Wireguard 支持
-        -> BBR 支持
-        ${{ inputs.use_kpm && '-> KPM 支持' || '' }}
-        -> **LZ4KD&ONEPLUS_LZ4K**  ${{ inputs.use_zram && '支持' || '不支持' }}
+—>线卫的支持
+—>BBR支持
+{{{{输入.使用关键点的支持}}}}
+-> **LZ4KD&ONEPLUS_LZ4K**  ${{输入.use_zram &&'支持' || '不支持' }}{{输入.use_zram &&'支持' || '不支持' }}
         
-        <details>
+<详情>
         
         <summary>备注:</summary>
-        - -> 在SUS SU 模式 2 下, 将显示为禁用或不兼容, 原因是(编译内核时)使用了非kprobe钩子 ,并且不再需要(非kprobe钩子)!
-        - -> 在最新版的susfs, 使用Kernel Flasher刷入AK3压缩包会变砖, 尝试 https://github.com/libxzr/HorizonKernelFlasher!
+        -         - -> 在单一市场模式2 下，将显示为禁用或不兼容，原因是（编译内核时）使用了非kprob钩子，并且不再需要（非kprob钩子）！
+        -         - -> 在最新版的系统，使用内核闪光刷入AK3压缩包会变砖，尝试https://github.com/libxzr/HorizonKernelFlasher!
 
-        </details>
+</详情>
 
         模块: 
-        -> https://github.com/sidex15/ksu_module_susfs
+-> https://github.com/sidex15/ksu_module_susfs
         
-    steps:
-      # Checkout the code
-      - name: Checkout code
-        uses: actions/checkout@v3
+步骤:
+      #检查代码
+      - 姓名: 退房代码
+用途: 操作/结账@v3
 
-      - name: 确定分支为 KernelSU-${{ inputs.kernelsu_variant }}
-        if: ${{ inputs.kernelsu_branch == 'Dev(开发)' || inputs.kernelsu_variant == 'MKSU' || inputs.kernelsu_variant == 'SukiSU'  }}
-        run: |
-          # Determine the branch based on user input
-          if [[ "${{ inputs.kernelsu_variant }}" == "Official" || "${{ inputs.kernelsu_variant }}" == "MKSU" ]]; then
-            BRANCH="main"
-          elif [[ "${{ inputs.kernelsu_variant }}" == "SukiSU" ]]; then
-            BRANCH="main"
-          elif [[ "${{ inputs.kernelsu_variant }}" == "Next" ]]; then
-            BRANCH="next"
-          else
-            echo "Error: Custom branch not provided for 'Other(其他/指定)'" >&2
-            exit 1
-          fi
+      - 姓名: 确定分支为 KernelSU-${{inputs.kernelsu_variant 变量}}
+如果: ${{输入.kernelsu_branch ==“开发”|| 输入.kernelsu_variant =='MKSU'|| 输入.kernelsu_variant =='SukiSU'  }}
+运行: |
+#根据用户输入确定分支
+如果[[ "${{ inputs.kernelsu_variant }}" == "官方" || "${{ inputs.kernelsu_variant 0}}" == "MKSU" ]]；那么
+分公司="主"
+埃利夫[[ "${{ inputs.kernelsu_variant }}" == "SukiSU" ]]；然后
+分公司="主"
+埃利夫[[ "${{ inputs.kernelsu_variant }}" == “下一步” ]]；然后
+分公司="下一步"
+其他的
+回声"错误：未为"其他（其他/指定）"提供自定义分支" >&2
+出口1
+菲
 
-          # Store the selected branch in GITHUB_ENV
-          echo "KSU_BRANCH=$BRANCH" >> $GITHUB_ENV
+#将选定的分支存储在GITHUB_ENV中
+回传 "KSU_分行=$分行" >> $GITHUB_ENV
 
       - name: 获取提交哈希值或标签并生成 URL 于 KernelSU-${{ inputs.kernelsu_variant }}
         run: |
