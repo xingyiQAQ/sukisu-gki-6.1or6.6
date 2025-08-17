@@ -1,3 +1,7 @@
+这只是一个只编译Y700的6.1和6.6的SUKISU内核
+是从ShirkNeko大佬的项目拉取的单独做Y700的分支
+本项目是非盈利项目，只做学习用途
+
 ### 这是一个自动构建GKI内核的仓库
 
 > 非GKI可以尝试[SukiSU云盘](https://alist.shirkneko.top)的资源，不支持一加ColorOS14、15
