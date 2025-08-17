@@ -29,9 +29,9 @@ on:
         default: true
       use_kpm:
         description: '是否开启KPM功能?'
-        required: false
+        required: true
         type: boolean
-        default: false
+        default: true
       supp_op:
         description: '是否开启一加8E处理器机型支持?(非该机型无须勾)'
         required: false
