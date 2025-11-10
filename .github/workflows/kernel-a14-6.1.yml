@@ -32,6 +32,11 @@ on:
         required: true
         type: boolean
         default: true
+      BBG:
+        description: '是否启用内核层面阻止对关键分区/设备节点的非法写入(LSM)？'
+        required: true
+        type: boolean
+        default: false
 
 jobs:
   build-kernel-a14-6-1-kernelsu-susfs:
@@ -73,6 +78,8 @@ jobs:
           #  os_patch_level: "2025-04"
           #- sub_level: "134"
           #  os_patch_level: "2025-05"
+          - sub_level: "145"
+            os_patch_level: "2025-09"
           #- sub_level: "X"
           #  os_patch_level: "lts"
     uses: ./.github/workflows/gki-kernel.yml
@@ -89,3 +96,4 @@ jobs:
       use_zram: ${{ inputs.use_zram }}
       use_kpm: ${{ inputs.use_kpm }}
       supp_op: ${{ inputs.supp_op || false }}
+      BBG: ${{ inputs.BBG || false }}

@@ -32,6 +32,11 @@ on:
         required: true
         type: boolean
         default: true
+      BBG:
+        description: '是否启用内核层面阻止对关键分区/设备节点的非法写入(LSM)？'
+        required: true
+        type: boolean
+        default: false
   
 jobs:
   build-kernel-a13-5-15-kernelsu-susfs:
@@ -42,10 +47,10 @@ jobs:
           # 从谷歌提交找到补丁，修复94与104的兼容性问题
           - sub_level: "74"
             os_patch_level: "2023-01"
-          - sub_level: "94"
-            os_patch_level: "2023-05"
-          - sub_level: "104"
-            os_patch_level: "2023-07"
+          #- sub_level: "94"
+          #  os_patch_level: "2023-05"
+          #- sub_level: "104"
+          #  os_patch_level: "2023-07"
           - sub_level: "123"
             os_patch_level: "2023-11"
           #- sub_level: "137"
@@ -58,14 +63,16 @@ jobs:
           #   os_patch_level: "2024-07"
           #- sub_level: "151"
           #  os_patch_level: "2024-08"
-          - sub_level: "167"
-            os_patch_level: "2024-11"
+          #- sub_level: "167"
+          #  os_patch_level: "2024-11"
           - sub_level: "170"
             os_patch_level: "2025-01"
-          #- sub_level: "178"
-          #  os_patch_level: "2025-03"
-          #- sub_level: "180"
-          #  os_patch_level: "2025-05"  
+          - sub_level: "178"
+            os_patch_level: "2025-03"
+          - sub_level: "180"
+            os_patch_level: "2025-05"
+          - sub_level: "189"
+            os_patch_level: "2025-09"
           #- sub_level: "X"
           #  os_patch_level: "lts"
     uses: ./.github/workflows/gki-kernel.yml
@@ -82,3 +89,4 @@ jobs:
       use_zram: ${{ inputs.use_zram }}
       use_kpm: ${{ inputs.use_kpm }}
       supp_op: ${{ inputs.supp_op || false }}
+      BBG: ${{ inputs.BBG || false }}

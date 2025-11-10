@@ -37,6 +37,11 @@ on:
         required: false
         type: boolean
         default: false
+      BBG:
+        description: '是否启用内核层面阻止对关键分区/设备节点的非法写入(LSM)？'
+        required: true
+        type: boolean
+        default: false
 
 
 jobs:
@@ -45,12 +50,12 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          # - sub_level: "30"
-          #   os_patch_level: "2024-08"
+          #- sub_level: "30"
+          #  os_patch_level: "2024-08"
           # - sub_level: "46"
           #   os_patch_level: "2024-09"
-          # - sub_level: "50"
-          #   os_patch_level: "2024-10"
+          - sub_level: "50"
+            os_patch_level: "2024-10"
           #- sub_level: "56"
           #  os_patch_level: "2024-11"
           #- sub_level: "57"
@@ -63,8 +68,10 @@ jobs:
           #  os_patch_level: "2025-03"
           #- sub_level: "82"
           #  os_patch_level: "2025-04"
-          - sub_level: "87"
-            os_patch_level: "2025-05"
+          #- sub_level: "87"
+          #  os_patch_level: "2025-05"
+          - sub_level: "102"
+            os_patch_level: "2025-10"
           #- sub_level: "X"
           #  os_patch_level: "lts"
     uses: ./.github/workflows/gki-kernel.yml
@@ -81,3 +88,4 @@ jobs:
       use_zram: ${{ inputs.use_zram }}
       use_kpm: ${{ inputs.use_kpm }}
       supp_op: ${{ inputs.supp_op }}
+      BBG: ${{ inputs.BBG || false }}
